@@ -30,7 +30,7 @@ class CreateRoom extends React.Component {
           }
       );
 
-      axios.post('http://localhost:8080/rooms', this.state.name)
+      axios.post('/api/rooms', this.state.name)
             .then(response => {
                     this.setState(
                         { 

@@ -37,7 +37,7 @@ class JoinRoom extends React.Component {
 
       console.log("this.state.name : " + this.state.name);
       const name =this.state.name;
-      axios.post('http://localhost:8080/rooms/' + this.state.roomId + '/users', name)
+      axios.post('/api/rooms/' + this.state.roomId + '/users', name)
             .then(response => {
                     this.setState(
                         { 

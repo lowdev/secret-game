@@ -6,7 +6,7 @@ plugins {
 
 group = 'org.lowentropy'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '14'
 
 repositories {
     mavenCentral()
@@ -17,6 +17,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     //implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework:spring-webflux'
+	implementation(project(':client'))
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

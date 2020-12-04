@@ -1,0 +1,4 @@
+allprojects {
+	apply plugin: 'java'
+	task stage(dependsOn: ['build'])
+}

@@ -20,7 +20,7 @@ class Room extends React.Component {
     }
 
     async componentDidMount() {
-        axios.get('http://localhost:8080/rooms/' + this.state.roomId)
+        axios.get('/api/rooms/' + this.state.roomId)
             .then(response => {
                 const room = response.data;
                     console.log(room.id);
@@ -41,7 +41,7 @@ class Room extends React.Component {
                 console.error('There was an error!', error);
             });
 
-        const eventSource = new EventSource('http://localhost:8080/rooms/' + this.state.roomId + '/events/user'); 
+        const eventSource = new EventSource('/api/rooms/' + this.state.roomId + '/events/user'); 
         eventSource.onmessage = (event) => {
             const users = this.state.users;
             users.push(event.data);

@@ -5,13 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.lowentropy.secretgame.feature.domain.room.RoomId;
 import org.lowentropy.secretgame.feature.domain.user.UserId;
+import org.lowentropy.secretgame.feature.domain.user.UserName;
 import org.lowentropy.secretgame.feature.domain.user.event.UserCreatedEvent;
 
 class RoomControllerTest {
 
     @Test
     void testMapper() {
-        UserCreatedEvent event = new UserCreatedEvent(new RoomId(), new UserId());
+        UserCreatedEvent event = new UserCreatedEvent(new RoomId(), new UserName("Toto"));
     }
 
     private static String convertMapToJson(UserCreatedEvent evetp) {

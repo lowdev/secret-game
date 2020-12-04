@@ -5,16 +5,24 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath 'com.moowork.gradle:gradle-node-plugin:0.12'
-		classpath 'com.moowork.gradle:gradle-grunt-plugin:0.12'
+		classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
 	}
 }
 
 apply plugin: "com.moowork.node"
 apply plugin: "base"
+apply plugin: "java"
+ 
+node {
+    download = true
+}
  
 task appNpmBuild(type: NpmTask) {
 	args = ["run", "build"]
 }
  
 assemble.dependsOn(appNpmBuild)
+
+jar {
+  from 'build/' into 'static'
+}

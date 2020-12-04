@@ -24,4 +24,10 @@ public class PartyControllerITest {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/parties",
                 String.class)).contains("Hello, World");
     }
+
+    @Test
+    public void home() {
+        System.out.println(this.restTemplate.getForObject("http://localhost:" + port + "/",
+                String.class));
+    }
 }

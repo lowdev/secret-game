@@ -17,7 +17,7 @@ import reactor.core.publisher.Flux;
 import java.util.Map;
 
 @RestController
-@RequestMapping("rooms")
+@RequestMapping("api/rooms")
 public class RoomController {
 
     private  Flux<UserCreatedEvent> events;
