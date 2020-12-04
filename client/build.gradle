@@ -15,7 +15,7 @@ task appNpmBuild(type: NpmTask) {
 }
 
 task appNpmInstall(type: NpmTask) {
-	args = ["install", "-g", "react-scripts", "react"]
+	args = ["install"]
 }
  
 appNpmBuild.dependsOn(appNpmInstall)
