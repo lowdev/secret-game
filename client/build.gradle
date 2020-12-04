@@ -13,7 +13,12 @@ node {
 task appNpmBuild(type: NpmTask) {
 	args = ["run", "build"]
 }
+
+task appNpmInstall(type: NpmTask) {
+	args = ["install", "-g", "react-scripts"]
+}
  
+appNpmBuild.dependsOn(appNpmInstall)
 assemble.dependsOn(appNpmBuild)
 
 jar {
