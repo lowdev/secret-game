@@ -9,7 +9,10 @@ import org.lowentropy.secretgame.feature.domain.user.GameMaster;
 import org.lowentropy.secretgame.feature.domain.user.User;
 import org.lowentropy.secretgame.feature.domain.user.UserId;
 import org.lowentropy.secretgame.feature.domain.user.UserName;
+import org.lowentropy.secretgame.feature.domain.user.event.UserCreatedEvent;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 public class RoomUseCase {
@@ -40,5 +43,25 @@ public class RoomUseCase {
     public Room getRoom(String roomId) {
         return readRepository.find(new RoomId(UUID.fromString(roomId)))
                 .orElseThrow(() -> new IllegalArgumentException("No room with this id: " + roomId));
+    }
+
+    public void ping(String roomId) {
+        UserCreatedEvent event = new UserCreatedEvent(new RoomId(UUID.fromString(roomId)), UserName.NULL);
+        new Timer().schedule(new PingTask(eventStore, event), 0, 40000);
+    }
+
+    private class PingTask extends TimerTask {
+        private final EventStore eventStore;
+        private final UserCreatedEvent userEvent;
+
+        public PingTask(EventStore eventStore, UserCreatedEvent userEvent) {
+            this.userEvent = userEvent;
+            this.eventStore = eventStore;
+        }
+
+        @Override
+        public void run() {
+            eventStore.publish(userEvent);
+        }
     }
 }

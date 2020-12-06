@@ -53,6 +53,7 @@ public class RoomController {
 
     @GetMapping(path = "{id}/events/user", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<ServerSentEvent<String>> eventsStream(@PathVariable String id) {
+        this.userCase.ping(id);
         return this.events
                 .filter(event -> event.getRoomId().equals(RoomId.of(id)))
                 .map(event -> ServerSentEvent.builder(event.getUserName().toString()).build());

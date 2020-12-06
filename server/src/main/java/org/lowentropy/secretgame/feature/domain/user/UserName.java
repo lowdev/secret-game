@@ -3,6 +3,8 @@ package org.lowentropy.secretgame.feature.domain.user;
 import java.util.Objects;
 
 public class UserName {
+    public static final UserName NULL = new UserName(null);
+
     private String name;
 
     public UserName(String name) {
