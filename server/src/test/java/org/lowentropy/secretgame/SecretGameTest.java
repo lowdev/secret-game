@@ -1,8 +1,8 @@
 package org.lowentropy.secretgame;
 
-import org.lowentropy.secretgame.feature.domain.user.GameMaster;
-import org.lowentropy.secretgame.feature.domain.room.Room;
-import org.lowentropy.secretgame.feature.domain.user.User;
+import org.lowentropy.secretgame.feature.room.domain.user.GameMaster;
+import org.lowentropy.secretgame.feature.room.domain.room.Room;
+import org.lowentropy.secretgame.feature.room.domain.user.User;
 
 public class SecretGameTest {
     private GameMaster david;

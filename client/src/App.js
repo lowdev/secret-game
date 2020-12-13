@@ -28,7 +28,7 @@ function App() {
             <Route path="/join">
               <JoinRoom />
             </Route>
-            <Route path="/room/:id" component={Room} />
+            <Route path="/room/:id/user/:userid" component={Room} />
           </Switch>
         </header>
           

@@ -1,7 +1,7 @@
 package org.lowentropy.secretgame.booter.springboot;
 
-import org.lowentropy.secretgame.feature.domain.port.EventStore;
-import org.lowentropy.secretgame.feature.infrastructure.adapter.event.SpringEventStore;
+import org.lowentropy.secretgame.feature.room.domain.port.EventStore;
+import org.lowentropy.secretgame.feature.room.infrastructure.adapter.event.SpringEventStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

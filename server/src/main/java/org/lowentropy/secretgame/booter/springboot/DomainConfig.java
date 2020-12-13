@@ -1,10 +1,14 @@
 package org.lowentropy.secretgame.booter.springboot;
 
-import org.lowentropy.secretgame.feature.domain.application.RoomUseCase;
-import org.lowentropy.secretgame.feature.domain.port.RoomReadRepository;
-import org.lowentropy.secretgame.feature.domain.port.RoomWriteRepository;
-import org.lowentropy.secretgame.feature.domain.port.EventStore;
-import org.lowentropy.secretgame.feature.infrastructure.adapter.room.RoomMemoryRepository;
+import org.lowentropy.secretgame.feature.party.domain.application.PartyUseCase;
+import org.lowentropy.secretgame.feature.party.domain.port.PartyReadRepository;
+import org.lowentropy.secretgame.feature.party.infrastructure.adapter.PartyMemoryRepository;
+import org.lowentropy.secretgame.feature.room.domain.application.RoomUseCase;
+import org.lowentropy.secretgame.feature.room.domain.port.RoomReadRepository;
+import org.lowentropy.secretgame.feature.room.domain.port.RoomWriteRepository;
+import org.lowentropy.secretgame.feature.room.domain.port.EventStore;
+import org.lowentropy.secretgame.feature.room.domain.room.Room;
+import org.lowentropy.secretgame.feature.room.infrastructure.adapter.room.RoomMemoryRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +36,17 @@ public class DomainConfig {
     }
 
     @Bean
-    RoomMemoryRepository createRoomRepository() {
-        return new RoomMemoryRepository();
+    RoomMemoryRepository createRoomRepository(EventStore eventStore) {
+        return new RoomMemoryRepository(eventStore);
+    }
+
+    @Bean
+    PartyReadRepository createPartyReadRepository() {
+        return new PartyMemoryRepository();
+    }
+
+    @Bean
+    PartyUseCase createPartyUseCase(PartyReadRepository partyReadRepository) {
+        return new PartyUseCase(partyReadRepository);
     }
 }

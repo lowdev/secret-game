@@ -23,6 +23,15 @@ class CreateRoom extends React.Component {
       this.setState({name: event.target.value});
     }
 
+    getApiRoot() {
+      const apiRoot = process.env.REACT_APP_API_ROOT
+      if (apiRoot) {
+          return apiRoot;
+      }
+
+        return '/';
+    }
+
     okClick(event) {
       this.setState(
           { 
@@ -30,13 +39,15 @@ class CreateRoom extends React.Component {
           }
       );
 
-      axios.post('/api/rooms', this.state.name)
+
+      console.log("toto : " + this.state.name);
+      axios.post(this.getApiRoot() + 'api/rooms', { username: this.state.name })
             .then(response => {
                     this.setState(
                         { 
                             isLoading: false,
-                            roomId: response.data,
-                            redirect: '/room/' + response.data
+                            roomId: response.data.id,
+                            redirect: '/room/' + response.data.id + '/user/' +  response.data.gameMasterId
                         }
                     );
                   }

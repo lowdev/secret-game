@@ -10,12 +10,13 @@ class JoinRoom extends React.Component {
         error: null,
         isLoading: false,
         roomId: '',
+        roomMasterName: '',
         name: '',
         redirect: null
       };
       this.okClick = this.okClick.bind(this);
       this.handleNameChange = this.handleNameChange.bind(this);
-      this.handleRoomIdChange = this.handleRoomIdChange.bind(this);
+      this.handleRoomMasterNameChange = this.handleRoomMasterNameChange.bind(this);
     }
 
     componentDidMount() { }
@@ -24,8 +25,17 @@ class JoinRoom extends React.Component {
       this.setState({name: event.target.value});
     }
 
-    handleRoomIdChange(event) {
-      this.setState({roomId: event.target.value});
+    handleRoomMasterNameChange(event) {
+      this.setState({roomMasterName: event.target.value});
+    }
+
+    getApiRoot() {
+      const apiRoot = process.env.REACT_APP_API_ROOT
+      if (apiRoot) {
+          return apiRoot;
+      }
+
+        return '/';
     }
 
     okClick(event) {
@@ -35,16 +45,14 @@ class JoinRoom extends React.Component {
           }
       );
 
-      console.log("this.state.name : " + this.state.name);
-      const name =this.state.name;
-      axios.post('/api/rooms/' + this.state.roomId + '/users', name)
+      axios.get(this.getApiRoot() + 'api/rooms?roomMasterName=' + this.state.roomMasterName)
             .then(response => {
                     this.setState(
-                        { 
-                            isLoading: false,
-                            redirect: '/room/' + this.state.roomId
+                        {
+                          roomId: response.data.id
                         }
                     );
+                    this.addUser();
                   }
             ).catch(error => {
                 this.setState(
@@ -56,6 +64,33 @@ class JoinRoom extends React.Component {
             });
     }
 
+    addUser() {
+      this.setState(
+        { 
+            isLoading: true
+        }
+      );
+
+      const name = this.state.name;
+      axios.post(this.getApiRoot() + 'api/rooms/' + this.state.roomId + '/users', { username: name })
+            .then(response => {
+                    this.setState(
+                        { 
+                            isLoading: false,
+                            redirect: '/room/' + this.state.roomId + '/user/' + response.data
+                        }
+                    );
+                  }
+            ).catch(error => {
+                this.setState(
+                    {
+                      isLoading: false,
+                        error
+                    });
+                console.error('There was an error!', error);
+            });
+      }
+
     render() {
         const { error, isLoading, redirect } = this.state;
         if (redirect) {
@@ -66,7 +101,6 @@ class JoinRoom extends React.Component {
             <div>
               <div>Error: {error.message}</div>
               <br></br>
-              <this.BackButton />
             </div>);
         }
         if (isLoading) {
@@ -77,9 +111,9 @@ class JoinRoom extends React.Component {
               <h2>Join Room</h2>
               <Form>
                 <Form.Control size="lg" type="text" 
-                  onChange={this.handleRoomIdChange}
-                  value={this.state.roomId}
-                  placeholder="Enter ID room" />
+                  onChange={this.handleRoomMasterNameChange}
+                  value={this.state.roomMasterName}
+                  placeholder="Enter game master name room" />
                 <br></br>
                 <Form.Control size="lg" type="text"
                   onChange={this.handleNameChange}
